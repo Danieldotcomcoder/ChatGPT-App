@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/Danieldotcomcoder/ChatGPT-App/issues"
   },
-  "homepage": "https://github.com/Danieldotcomcoder/ChatGPT-App#readme"
+  "homepage": "https://github.com/Danieldotcomcoder/ChatGPT-App#readme",
+  "dependencies": {
+    "body-parse": "^0.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "openai": "^3.1.0"
+  }
 }
