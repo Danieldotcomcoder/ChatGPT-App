@@ -12,8 +12,20 @@ function App() {
     e.preventDefault();
     setChatLog([...chatlog, { user: 'me', message: `${input}` }]);
     setInput('');
-  };
 
+    const response = await fetch("http://localhost:3080/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: chatlog.map((message) => message.message).join("")
+      })
+    })
+    const data = await response.json();
+    console.log(data)
+  };
+   
   return (
     <div className="App">
       <aside className="sidemenu">
