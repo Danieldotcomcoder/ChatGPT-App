@@ -1,42 +1,55 @@
 import './App.css';
 import './normal.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [input, setInput] = useState('');
+  const [models, setModels] = useState([]);
+  const [currentModel, setCurrentModel] = useState("ada");
+
   const [chatlog, setChatLog] = useState([
     { user: 'gpt', message: 'How can I help you today?' },
   ]);
 
+  const getEngines = () => {
+    fetch('http://localhost:3080/models')
+      .then((res) => res.json())
+      .then((data) => {
+        setModels(data.models);
+      });
+  };
+  useEffect(() => {
+    getEngines();
+  }, []);
 
   const clearChat = () => {
-    setChatLog([])
-  }
+    setChatLog([]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let chatLogNew = [...chatlog, { user: 'me', message: `${input}` }];
     setInput('');
-    
+
     setChatLog(chatLogNew);
 
-    const messages = chatLogNew.map((message) => message.message).join("\n")
+    const messages = chatLogNew.map((message) => message.message).join('\n');
 
-
-    const response = await fetch("http://localhost:3080/", {
-      method: "POST",
+    const response = await fetch('http://localhost:3080/', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        message: messages
-      })
-    })
+        message: messages,
+        currentModel: currentModel,
+      }),
+    });
     const data = await response.json();
     setChatLog([...chatLogNew, { user: 'gpt', message: `${data.message}` }]);
-    console.log(data.message)
+    console.log(data.message);
   };
-   
+
   return (
     <div className="App">
       <aside className="sidemenu">
@@ -44,17 +57,26 @@ function App() {
           <span>+</span>
           New Chat
         </div>
+        <div className="models">
+          <select onChange={(e) => setCurrentModel(e.target.value)}>
+            {models.map((model) => (
+              <option key={model.id} value={model.id}>
+                {model.id}
+              </option>
+            ))}
+          </select>
+        </div>
       </aside>
 
       <section className="chatbox">
         <div className="chat-log">
-          { chatlog.map((message, index) => (
+          {chatlog.map((message, index) => (
             <ChatMessage key={index} message={message} />
           ))}
           <div className="chat-message chatgpt">
             <div className="chat-message-center">
               <div className="avatar chatgpt"></div>
-              <div className="message">I am an AI</div>
+              <div className="message"></div>
             </div>
           </div>
         </div>
@@ -72,7 +94,6 @@ function App() {
     </div>
   );
 }
-
 
 const ChatMessage = ({ message }) => {
   return (
