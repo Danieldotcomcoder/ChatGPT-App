@@ -15,9 +15,12 @@ export const fetchmessages = async (message, currentModel) => {
     const response = await openai.createCompletion({
         model: `${currentModel}`,
         prompt: `${message}`,
-        max_tokens: 25,
-        temperature: 0.5,
+        max_tokens: 45,
+        temperature: 0.7,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
       });
-      
-    return response
+      console.log(response.data.choices[0].text)
+    return response.data.choices[0].text
 }

@@ -1,20 +1,19 @@
 import './App.css';
 import './normal.css';
 import { useState, useEffect } from 'react';
-import {fetchmodels, fetchmessages } from './fetchdata';
+import { fetchmodels, fetchmessages } from './fetchdata';
 
 function App() {
   const [input, setInput] = useState('');
-  const [data, setData] = useState('');
   const [models, setModels] = useState([]);
-  const [currentModel, setCurrentModel] = useState("ada");
+  const [currentModel, setCurrentModel] = useState('text-davinci-003');
 
   const [chatlog, setChatLog] = useState([
     { user: 'gpt', message: 'How can I help you today?' },
   ]);
 
   const getModels = () => {
-   fetchmodels().then((res) => setModels(res.data))
+    fetchmodels().then((res) => setModels(res.data));
   };
 
   useEffect(() => {
@@ -25,22 +24,17 @@ function App() {
     setChatLog([]);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let chatLogNew = [...chatlog, { user: 'me', message: `${input}` }];
+    const messages = chatLogNew.map((message) => message.message).join('\n');
+    fetchmessages(messages, currentModel)
+      .then((info) =>
+        setChatLog([...chatLogNew, { user: 'gpt', message: `${info}` }])
+      );
     setInput('');
 
     setChatLog(chatLogNew);
-
-    const messages = chatLogNew.map((message) => message.message).join('\n');
-    console.log(messages)
-    await fetchmessages(messages, currentModel).then((res) => setData(res))
-    console.log(data)
-    console.log(data.data.choices[0].text)
-    
-   
-    setChatLog([...chatLogNew, { user: 'gpt', message: `${data.data.choices[0].text}` }]);
-  ;
   };
 
   return (
