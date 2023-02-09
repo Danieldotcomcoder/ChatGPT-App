@@ -1,6 +1,7 @@
 import './App.css';
 import './normal.css';
 import { useState, useEffect } from 'react';
+import fetchmodels from './fetchdata';
 
 function App() {
   const [input, setInput] = useState('');
@@ -11,15 +12,12 @@ function App() {
     { user: 'gpt', message: 'How can I help you today?' },
   ]);
 
-  const getEngines = () => {
-    fetch('http://localhost:3080/models')
-      .then((res) => res.json())
-      .then((data) => {
-        setModels(data.models);
-      });
+  const getModels = () => {
+   fetchmodels().then((res) => setModels(res.data))
   };
+
   useEffect(() => {
-    getEngines();
+    getModels();
   }, []);
 
   const clearChat = () => {
