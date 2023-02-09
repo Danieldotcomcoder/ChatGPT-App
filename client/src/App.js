@@ -1,10 +1,11 @@
 import './App.css';
 import './normal.css';
 import { useState, useEffect } from 'react';
-import fetchmodels from './fetchdata';
+import {fetchmodels, fetchmessages } from './fetchdata';
 
 function App() {
   const [input, setInput] = useState('');
+  const [data, setData] = useState('');
   const [models, setModels] = useState([]);
   const [currentModel, setCurrentModel] = useState("ada");
 
@@ -32,20 +33,14 @@ function App() {
     setChatLog(chatLogNew);
 
     const messages = chatLogNew.map((message) => message.message).join('\n');
-
-    const response = await fetch('http://localhost:3080/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: messages,
-        currentModel: currentModel,
-      }),
-    });
-    const data = await response.json();
-    setChatLog([...chatLogNew, { user: 'gpt', message: `${data.message}` }]);
-    console.log(data.message);
+    console.log(messages)
+    await fetchmessages(messages, currentModel).then((res) => setData(res))
+    console.log(data)
+    console.log(data.data.choices[0].text)
+    
+   
+    setChatLog([...chatLogNew, { user: 'gpt', message: `${data.data.choices[0].text}` }]);
+  ;
   };
 
   return (
