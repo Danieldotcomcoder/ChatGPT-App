@@ -6,7 +6,7 @@ import { fetchmodels, fetchmessages } from './fetchdata';
 function App() {
   const [input, setInput] = useState('');
   const [models, setModels] = useState([]);
-  const [currentModel, setCurrentModel] = useState('text-davinci-003');
+  const [currentModel, setCurrentModel] = useState('text-davinci-001');
 
   const [chatlog, setChatLog] = useState([
     { user: 'gpt', message: 'How can I help you today?' },
@@ -45,7 +45,7 @@ function App() {
           New Chat
         </div>
         <div className="models">
-          <select onChange={(e) => setCurrentModel(e.target.value)}>
+          <select className='models-options' value='text-davinci-001' onChange={(e) => setCurrentModel(e.target.value)}>
             {models.map((model) => (
               <option key={model.id} value={model.id}>
                 {model.id}

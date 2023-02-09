@@ -28,6 +28,7 @@
   border-radius: 5px;
   text-align: left;
   transition: ease 0.5s;
+  cursor: pointer;
 }
 
 .side-menu-button:hover {
@@ -122,11 +123,20 @@
   padding-right: 40px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.models {
+  padding: 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  margin-top: 5%;
+  text-align: left;
+  transition: ease 0.5s;
+  cursor: pointer;
+}
+
+.models-options {
+  color: white;
+  width: 90%;
+  border: 1px solid transparent;
+  background-color: #202123;
+  cursor: pointer;
 }
