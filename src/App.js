@@ -45,7 +45,7 @@ function App() {
           New Chat
         </div>
         <div className="models">
-          <select className='models-options' value='text-davinci-001' onChange={(e) => setCurrentModel(e.target.value)}>
+          <select className='models-options' value={currentModel} onChange={(e) => setCurrentModel(e.target.value)}>
             {models.map((model) => (
               <option key={model.id} value={model.id}>
                 {model.id}
