@@ -17,7 +17,7 @@ export const fetchmessages = async (message, currentModel) => {
     const response = await openai.createCompletion({
         model: `${currentModel}`,
         prompt: `${message}`,
-        max_tokens: 100,
+        max_tokens: 150,
         temperature: 0.7,
         top_p: 1,
         frequency_penalty: 0,
