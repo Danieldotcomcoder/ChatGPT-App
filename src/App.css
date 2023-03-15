@@ -24,6 +24,7 @@ body {
 .sidemenu {
   width: 260px;
   padding: 10px;
+  height: 100%;
   background-color: #34D399;
   border-right: 2px solid forestgreen;
 }
@@ -97,7 +98,7 @@ body {
 }
 
 .chat-message-center {
-  max-width: 640px;
+  max-width: 940px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
