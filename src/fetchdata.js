@@ -15,7 +15,9 @@ export const fetchmodels = async () => {
 export const fetchmessages = async (message, currentModel) => {
   if (
     currentModel === 'gpt-3.5-turbo' ||
-    currentModel === 'gpt-3.5-turbo-0301'
+    currentModel === 'gpt-3.5-turbo-0301' ||
+    currentModel === 'gpt-4' ||
+    currentModel === 'gpt-4-0314'
   ) {
     const completion = await openai.createChatCompletion({
       model: currentModel,
