@@ -24,6 +24,3 @@ Contributions, issues, and feature requests are welcome!
 
 ## Show your support
 Give a ⭐️ if you like this project!
-
-## Acknowledgments
-Kudos for the creator of this [youtube-video](https://www.youtube.com/watch?v=qwM23_kF4v4&ab_channel=AdrianTwarog) for inspiring great ideas.
