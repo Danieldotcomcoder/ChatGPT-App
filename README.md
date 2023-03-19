@@ -1,5 +1,5 @@
 ## ChatGPT-APP 
-- A web application that implements ChatGPT which is a natural language processing tool driven by AI technology that allows you to have human-like conversations and much more with a chatbot. The language model can answer questions, and assist you with tasks such as composing emails, essays, and code.
+- A web application that implements ChatGPT which is a natural language processing tool driven by AI technology that allows you to have human-like conversations and much more with a chatbot. The models can answer questions, and assist you with tasks such as composing emails, essays, and code.
 ## Built With
 - React
 - CSS3
