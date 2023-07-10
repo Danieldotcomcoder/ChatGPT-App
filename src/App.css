@@ -47,6 +47,7 @@ body {
 .side-menu-button:hover {
   background-color: rgb(255, 255, 255, 0.1);
 }
+
 .side-menu-button span {
   padding-left: 6px;
   padding-right: 12px;
@@ -119,7 +120,7 @@ body {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-} 
+}
 
 .message {
   padding-left: 40px;
@@ -142,4 +143,50 @@ body {
   border: 1px solid transparent;
   background-color: #34D399;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 720px) {
+
+  .App {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidemenu {
+    height: 17%;
+    width: 100%;
+  }
+
+  .models {
+    width: 40%;
+    font-size: 10px;
+  }
+
+  .models-options {
+    width: 100%;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .models-options option {
+    width: 100%;
+  }
+
+  .side-menu-button {
+    width: 40%;
+    font-size: 13px;
+  }
+
+  .chat-input-textarea {
+    padding: 5px;
+    margin: 5px;
+    width: 95%;
+    color: white;
+    font-size: 1em;
+  }
+
+  .message {
+    padding: 10px;
+    width: 100%;
+  }
 }
