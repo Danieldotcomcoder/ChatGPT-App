@@ -6,10 +6,13 @@ import { fetchmodels, fetchmessages } from './fetchdata';
 function App() {
   const [input, setInput] = useState('');
   const [models, setModels] = useState([]);
-  const [currentModel, setCurrentModel] = useState('text-davinci-001');
+  const [currentModel, setCurrentModel] = useState('text-davinci-003');
 
   const [chatlog, setChatLog] = useState([
-    { user: 'gpt', message: 'How can I help you today?' },
+    {
+      user: 'gpt',
+      messages: [{ user: 'gpt', message: 'How can I help you today?' }],
+    },
   ]);
 
   const getModels = () => {
@@ -26,15 +29,46 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let chatLogNew = [...chatlog, { user: 'me', message: `${input}` }];
-    const messages = chatLogNew.map((message) => message.message).join('\n');
-    fetchmessages(messages, currentModel)
-      .then((info) =>
-        setChatLog([...chatLogNew, { user: 'gpt', message: `${info}` }])
-      );
-    setInput('');
+    setChatLog((prevChatLog) => [
+      ...prevChatLog,
+      { user: 'me', messages: [{ user: 'me', message: input }] },
+    ]);
+    const messages = chatlog
+      .concat({ user: 'me', messages: [{ user: 'me', message: input }] })
+      .flatMap((messageGroup) =>
+        messageGroup.messages.map((message) => message.message)
+      )
+      .join('\n');
+    fetchmessages(messages, currentModel).then((info) => {
+      const messageParts = info.split(' ');
+      let currentPart = 0;
+      const displayNextPart = () => {
+        if (currentPart < messageParts.length) {
+          setChatLog((prevChatLog) => {
+            const lastMessageGroup = prevChatLog[prevChatLog.length - 1];
+            if (lastMessageGroup && lastMessageGroup.user === 'gpt') {
+              return prevChatLog.slice(0, -1).concat({
+                user: 'gpt',
+                messages: lastMessageGroup.messages.concat({
+                  user: 'gpt',
+                  message: messageParts[currentPart],
+                }),
+              });
+            } else {
+              return prevChatLog.concat({
+                user: 'gpt',
+                messages: [{ user: 'gpt', message: messageParts[currentPart] }],
+              });
+            }
+          });
+          currentPart++;
+          setTimeout(displayNextPart, 100);
+        }
+      };
 
-    setChatLog(chatLogNew);
+      displayNextPart();
+    });
+    setInput('');
   };
 
   return (
@@ -45,7 +79,11 @@ function App() {
           New Chat
         </div>
         <div className="models">
-          <select className='models-options' value={currentModel} onChange={(e) => setCurrentModel(e.target.value)}>
+          <select
+            className="models-options"
+            value={currentModel}
+            onChange={(e) => setCurrentModel(e.target.value)}
+          >
             {models.map((model) => (
               <option key={model.id} value={model.id}>
                 {model.id}
@@ -57,8 +95,8 @@ function App() {
 
       <section className="chatbox">
         <div className="chat-log">
-          {chatlog.map((message, index) => (
-            <ChatMessage key={index} message={message} />
+          {chatlog.map((messageGroup, index) => (
+            <ChatMessage key={index} messages={messageGroup.messages} />
           ))}
           <div className="chat-message chatgpt">
             <div className="chat-message-center">
@@ -82,12 +120,12 @@ function App() {
   );
 }
 
-const ChatMessage = ({ message }) => {
+const ChatMessage = ({ messages }) => {
   return (
-    <div className={`chat-message ${message.user === 'gpt' && 'chatgpt'}`}>
+    <div className={`chat-message ${messages[0].user === 'gpt' && 'chatgpt'}`}>
       <div className="chat-message-center">
-        <div className={`avatar ${message.user === 'gpt' && 'chatgpt'}`}>
-          {message.user === 'gpt' && (
+        <div className={`avatar ${messages[0].user === 'gpt' && 'chatgpt'}`}>
+          {messages[0].user === 'gpt' && (
             <svg
               width={41}
               height={41}
@@ -103,7 +141,10 @@ const ChatMessage = ({ message }) => {
             </svg>
           )}
         </div>
-        <div className="message">{message.message}</div>
+
+        <div className="message">
+          {messages.map((message) => message.message).join(' ')}
+        </div>
       </div>
     </div>
   );
