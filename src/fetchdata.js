@@ -21,7 +21,7 @@ export const fetchmessages = async (message, currentModel) => {
   ) {
     const completion = await openai.createChatCompletion({
       model: currentModel,
-      max_tokens: 250,
+      max_tokens: 550,
       messages: [{ role: 'user', content: message }],
     });
 
