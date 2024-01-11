@@ -78,19 +78,6 @@ function App() {
           <span>+</span>
           New Chat
         </div>
-        <div className="models">
-          <select
-            className="models-options"
-            value={currentModel}
-            onChange={(e) => setCurrentModel(e.target.value)}
-          >
-            {models.map((model) => (
-              <option key={model.id} value={model.id}>
-                {model.id}
-              </option>
-            ))}
-          </select>
-        </div>
       </aside>
 
       <section className="chatbox">
