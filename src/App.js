@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     getModels();
-  }, []);
+  }, [getModels()]);
 
   const clearChat = () => {
     setChatLog([]);
