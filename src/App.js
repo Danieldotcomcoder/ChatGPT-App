@@ -5,8 +5,8 @@ import { fetchmodels, fetchmessages } from './fetchdata';
 
 function App() {
   const [input, setInput] = useState('');
-  const [models, setModels] = useState([]);
-  const [currentModel, setCurrentModel] = useState('text-davinci-003');
+  const [setModels] = useState([]);
+  const [currentModel] = useState('text-davinci-003');
 
   const [chatlog, setChatLog] = useState([
     {
